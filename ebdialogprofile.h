@@ -47,6 +47,8 @@ private:
     void prepareLayout();
     void updateLayout();
     void buildList();
+
+    bool fileExist(const QString & file);
 };
 
 #endif // EBDIALOGPROFILE_H

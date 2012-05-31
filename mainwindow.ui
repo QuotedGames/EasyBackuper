@@ -72,6 +72,8 @@
      <string>File</string>
     </property>
     <addaction name="actionNew_profile"/>
+    <addaction name="separator"/>
+    <addaction name="actionSettings"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>

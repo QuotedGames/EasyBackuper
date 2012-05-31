@@ -73,6 +73,10 @@ void EBDialogProfile::buildList()
         ui->bRemoveAll->setEnabled(true);
     }
 
+    if(ui->pFiles->count() > 0) {
+        ui->pFiles->item(0)->setSelected(true);
+    }
+
 }
 
 void EBDialogProfile::on_bCancel_clicked()
@@ -91,8 +95,10 @@ void EBDialogProfile::on_bAddFile_clicked()
 
     if(fNames.size() > 0) {
         for(int i = 0; i < fNames.size(); ++i) {
-            this->mProfile->addFile(fNames.at(i));
-            this->mProfile->setProfileLastSourceDir(QDir(fNames.at(i)).absolutePath());
+            if(!this->fileExist(fNames.at(i))) {
+                this->mProfile->addFile(fNames.at(i));
+                this->mProfile->setProfileLastSourceDir(QDir(fNames.at(i)).absolutePath());
+            }
         }
 
         // Update window-layout
@@ -111,4 +117,14 @@ void EBDialogProfile::setIsNewProfile(bool isNew)
 bool EBDialogProfile::isNewProfile()
 {
     return this->mIsNewProfile;
+}
+
+
+bool EBDialogProfile::fileExist(const QString &file)
+{
+    for(int i = 0; i < this->mProfile->profileFiles().size(); ++i) {
+        if(this->mProfile->profileFiles().at(i) == file)
+            return true;
+    }
+    return false;
 }
