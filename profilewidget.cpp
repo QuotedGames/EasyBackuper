@@ -6,6 +6,22 @@ ProfileWidget::ProfileWidget(QWidget *parent) :
     ui(new Ui::ProfileWidget)
 {
     ui->setupUi(this);
+    this->mProfile = 0;
+
+#ifdef Q_OS_MAC
+    ui->labelName->setFont(QFont("Lucida Grande", 12, 75));
+    ui->labelDescription->setFont(QFont("Lucida Grande", 11));
+
+
+#else
+
+#endif
+}
+
+void ProfileWidget::setProfile(EBProfile *profile)
+{
+    this->mProfile = profile;
+    this->configureWidget();
 }
 
 ProfileWidget::~ProfileWidget()
@@ -23,4 +39,10 @@ void ProfileWidget::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+
+void ProfileWidget::configureWidget()
+{
+    ui->labelName->setText(this->mProfile->profileName());
+    ui->labelDescription->setText(this->mProfile->profileDescription());
 }

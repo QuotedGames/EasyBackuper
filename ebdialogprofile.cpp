@@ -45,7 +45,6 @@ void EBDialogProfile::prepareLayout()
     Q_ASSERT(this->mProfile);
 
     ui->pTitle->setText(this->mProfile->profileName());
-    ui->pDescription->setText(this->mProfile->profileDescription());
     ui->pDestination->setText(this->mProfile->profileDestinationDir());
 
     this->buildList();
@@ -151,4 +150,19 @@ void EBDialogProfile::on_bRemoveAll_clicked()
 {
     this->mProfile->removeAllFiles();
     this->updateLayout();
+}
+
+void EBDialogProfile::on_bOk_clicked()
+{
+    // 1. Check if title is set
+    if(ui->pTitle->text().isEmpty()) {
+        // dummy
+        return;
+    }
+
+    this->mProfile->setProfileName(ui->pTitle->text());
+    this->mProfile->setProfileDescription("Files: 10, Interval: 2 Hours. Destination: blah blah blah");
+
+    emit this->profileModified(this->mProfile);
+    this->close();
 }

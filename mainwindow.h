@@ -43,6 +43,11 @@ private:
 
 
     void loadProfiles();
+
+    void insertProfile(EBProfile *profile);
+    void updateProfile(EBProfile *profile);
+
+    void updateList();
 };
 
 #endif // MAINWINDOW_H

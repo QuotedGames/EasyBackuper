@@ -120,6 +120,16 @@ void MainWindow::onProfileModified(EBProfile *profile)
 
     if(profile == 0)
         return;
+
+    if(this->mDialogProfile->isNewProfile()) {
+        // add profile
+        profile->setParent(this);
+        this->insertProfile(profile);
+
+    } else {
+        // update profile
+        this->updateProfile(profile);
+    }
 }
 
 
@@ -134,4 +144,48 @@ void MainWindow::on_actionNew_profile_triggered()
 void MainWindow::on_actionSettings_triggered()
 {
     this->mDialogSettings->show();
+}
+
+
+void MainWindow::insertProfile(EBProfile *profile)
+{
+    qDebug() << profile;
+    this->mProfiles->push_back(profile);
+
+    // insert new profile in the list
+    ProfileWidget *w = new ProfileWidget(this);
+    w->setProfile(this->mProfiles->last());
+
+    QListWidgetItem *l = new QListWidgetItem();
+
+    l->setSizeHint(QSize(ui->profileList->sizeHintForColumn(0), 44));
+    w->resize(QSize(ui->profileList->sizeHint().width(), 44));
+
+    ui->profileList->addItem(l);
+    ui->profileList->setItemWidget(l, w);
+
+}
+
+void MainWindow::updateProfile(EBProfile *profile)
+{
+
+}
+
+void MainWindow::updateList()
+{
+    // clear list first
+
+    // then update
+    for(int i = 0; i < this->mProfiles->size(); ++i) {
+        ProfileWidget *w = new ProfileWidget(this);
+        w->setProfile(this->mProfiles->at(i));
+
+        QListWidgetItem *l = new QListWidgetItem();
+
+        l->setSizeHint(QSize(ui->profileList->sizeHintForColumn(i), 44));
+        w->resize(QSize(ui->profileList->sizeHint().width(), 44));
+
+        ui->profileList->addItem(l);
+        ui->profileList->setItemWidget(l, w);
+    }
 }

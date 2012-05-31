@@ -43,6 +43,8 @@ private slots:
 
     void on_bRemoveAll_clicked();
 
+    void on_bOk_clicked();
+
 private:
     Ui::EBDialogProfile *ui;
     EBProfile           *mProfile;
