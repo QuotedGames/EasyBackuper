@@ -15,6 +15,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this->mDialogProfile,   SIGNAL(profileModified(EBProfile*)),
             this,                   SLOT(onProfileModified(EBProfile*)));
 
+    connect(ui->profileList,        SIGNAL(itemPressed(QListWidgetItem*)),
+            this,                   SLOT(onProfileSelected(QListWidgetItem*)));
+
     this->mProfiles = new QList<EBProfile *>();
 
     ui->mainToolBar->actions().at(1)->setEnabled(false);
@@ -187,5 +190,46 @@ void MainWindow::updateList()
 
         ui->profileList->addItem(l);
         ui->profileList->setItemWidget(l, w);
+    }
+}
+
+
+void MainWindow::onProfileSelected(QListWidgetItem *listItem)
+{
+    int row = ui->profileList->row(listItem);
+    if(this->mProfiles->at(row) != 0) {
+        ui->mainToolBar->actions().at(1)->setEnabled(true);
+    } else {
+        ui->mainToolBar->actions().at(1)->setEnabled(false);
+
+    }
+}
+
+void MainWindow::on_actionRemove_selected_triggered()
+{
+    int row = ui->profileList->currentRow();
+    if(this->mProfiles->at(row) == 0)
+        return;
+
+
+    // Ask user first
+
+    QMessageBox msgBox;
+    msgBox.setText(tr("Do you really want to delete this profile?"));
+    msgBox.setInformativeText(tr("Profile: %1 (files: %2, interval: %3)").arg(this->mProfiles->at(row)->profileName(), "10", "5 Hours"));
+    msgBox.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
+    msgBox.setDefaultButton(QMessageBox::Cancel);
+    msgBox.setIcon(QMessageBox::Question);
+
+    if(msgBox.exec() == QMessageBox::Ok) {
+
+        // remove it
+
+        ui->profileList->takeItem(row);
+        ui->profileList->clearSelection();
+        ui->profileList->doItemsLayout();
+        this->mProfiles->removeAt(row);
+
+        ui->mainToolBar->actions().at(1)->setEnabled(false);
     }
 }

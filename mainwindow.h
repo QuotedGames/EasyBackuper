@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QSettings>
 #include <QList>
+#include <QListWidgetItem>
+#include <QMessageBox>
 
 #include "profilewidget.h"
 #include "ebdialogsettings.h"
@@ -32,6 +34,11 @@ private slots:
     void onProfileModified(EBProfile *);
 
     void on_actionSettings_triggered();
+
+
+    void onProfileSelected(QListWidgetItem *);
+
+    void on_actionRemove_selected_triggered();
 
 private:
     Ui::MainWindow      *ui;

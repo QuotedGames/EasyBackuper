@@ -79,6 +79,9 @@
             <property name="text">
              <string>Add new</string>
             </property>
+            <property name="autoDefault">
+             <bool>false</bool>
+            </property>
            </widget>
           </item>
           <item>
@@ -99,12 +102,18 @@
             <property name="text">
              <string>Remove selected</string>
             </property>
+            <property name="autoDefault">
+             <bool>false</bool>
+            </property>
            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="bRemoveAll">
             <property name="text">
              <string>Remove all</string>
+            </property>
+            <property name="autoDefault">
+             <bool>false</bool>
             </property>
            </widget>
           </item>
@@ -132,6 +141,9 @@
        <widget class="QPushButton" name="bSelectDest">
         <property name="text">
          <string>Select</string>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
