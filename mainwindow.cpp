@@ -92,8 +92,7 @@ void MainWindow::loadProfiles()
 
     ui->statusBar->showMessage(tr("Profiles loaded: %1").arg(this->mProfiles->size()));
 
-
-    /*
+/*
     for(int i = 0; i < 5; ++i) {
         ProfileWidget *w1 = new ProfileWidget(this);
         QListWidgetItem *i1 = new QListWidgetItem();
@@ -108,13 +107,14 @@ void MainWindow::loadProfiles()
         ui->profileList->addItem(i1);
         ui->profileList->setItemWidget(i1, w1);
     }
-    */
+*/
+
 
 }
 
 void MainWindow::onProfileModified(EBProfile *profile)
 {
-    Q_ASSERT(profile);
+    //Q_ASSERT(profile);
 
     if(profile == 0)
         return;
