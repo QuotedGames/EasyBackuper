@@ -1,14 +1,25 @@
 #include "ebprofile.h"
 
+
+
+
+
 EBProfile::EBProfile(QObject *parent) :
     QObject(parent)
 {
+    intervalTypes.insert(0, tr("Minute(s)"));
+    intervalTypes.insert(1, tr("Hour(s)"));
+    intervalTypes.insert(2, tr("Day(s)"));
+
     this->mIsActive             = false;
     this->mProfileName          = "";
     this->mProfileDescription   = "";
     this->mFilesToCopy          = QList<QString>();
     this->mDistanationDirectory = "";
     this->mLastSourceDirectory  = "";
+    this->mUniqueId             = 0;
+    this->mIntervalValue        = 1;
+    this->mIntervalType         = 1; // default is hours
 
 }
 
@@ -36,6 +47,27 @@ bool EBProfile::isActive()
 {
     return this->mIsActive;
 }
+
+int EBProfile::uniqueId()
+{
+    return this->mUniqueId;
+}
+
+int EBProfile::intervalValue()
+{
+    return this->mIntervalValue;
+}
+
+int EBProfile::intervalType()
+{
+    return this->mIntervalType;
+}
+
+const QString & EBProfile::intervalDescription()
+{
+    return intervalTypes[this->mIntervalType];
+}
+
 
 QList<QString> EBProfile::profileFiles()
 {
@@ -84,4 +116,19 @@ void EBProfile::removeFileAtIndex(const int index)
 void EBProfile::removeAllFiles()
 {
     this->mFilesToCopy.clear();
+}
+
+void EBProfile::setUniqueId(int id)
+{
+    this->mUniqueId = id;
+}
+
+void EBProfile::setIntervalType(int type)
+{
+    this->mIntervalType = type;
+}
+
+void EBProfile::setIntervalValue(int value)
+{
+    this->mIntervalValue = value;
 }

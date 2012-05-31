@@ -16,6 +16,7 @@ EBDialogProfile::EBDialogProfile(QWidget *parent) :
 EBDialogProfile::~EBDialogProfile()
 {
     delete ui;
+    delete this->mProfile;
 }
 
 void EBDialogProfile::changeEvent(QEvent *e)
@@ -34,6 +35,8 @@ void EBDialogProfile::setProfile(EBProfile *profile)
 {
     if(profile == 0) {
         this->mProfile = new EBProfile();
+        // "generate" id
+        this->mProfile->setUniqueId(QTime::currentTime().msec());
     } else {
         this->mProfile = profile;
     }
@@ -46,6 +49,8 @@ void EBDialogProfile::prepareLayout()
 
     ui->pTitle->setText(this->mProfile->profileName());
     ui->pDestination->setText(this->mProfile->profileDestinationDir());
+    ui->pIntervalValue->setValue(this->mProfile->intervalValue());
+    ui->pIntervalMode->setCurrentIndex(this->mProfile->intervalType());
 
     this->buildList();
 
@@ -156,13 +161,47 @@ void EBDialogProfile::on_bOk_clicked()
 {
     // 1. Check if title is set
     if(ui->pTitle->text().isEmpty()) {
-        // dummy
+        ui->pTitle->setFocus();
+        return;
+    }
+
+    if(this->mProfile->profileFiles().size() == 0) {
+        // no files selected - notify user
+        QMessageBox msgBox;
+        msgBox.setText(tr("You should specify which files you want to backup."));
+        msgBox.setIcon(QMessageBox::Information);
+        msgBox.exec();
+        return;
+
+    }
+
+    if(ui->pDestination->text().isEmpty()) {
+        // no destination - notify user
+        QMessageBox msgBox;
+        msgBox.setText(tr("You should specify destination folder."));
+        msgBox.setIcon(QMessageBox::Information);
+        msgBox.exec();
         return;
     }
 
     this->mProfile->setProfileName(ui->pTitle->text());
-    this->mProfile->setProfileDescription("Files: 10, Interval: 2 Hours. Destination: blah blah blah");
+    this->mProfile->setDestinationDir(ui->pDestination->text());
+    this->mProfile->setProfileDescription(tr("Files: %1, Interval: %2 %3. Destination: %4").arg(QString::number(this->mProfile->profileFiles().size()),
+                                                                                                "value",
+                                                                                                "type",
+                                                                                                "dest"));
 
     emit this->profileModified(this->mProfile);
     this->close();
+}
+
+void EBDialogProfile::on_bSelectDest_clicked()
+{
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Select destination folder"), this->mProfile->profileDestinationDir());
+
+    if(dir.isEmpty())
+        return;
+
+    this->mProfile->setDestinationDir(QDir(dir).absolutePath());
+    ui->pDestination->setText(this->mProfile->profileDestinationDir());
 }

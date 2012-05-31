@@ -5,6 +5,7 @@
 #include <QFile>
 #include <QFileDialog>
 #include <QDir>
+#include <QMessageBox>
 
 
 #include <ebprofile.h>
@@ -44,6 +45,8 @@ private slots:
     void on_bRemoveAll_clicked();
 
     void on_bOk_clicked();
+
+    void on_bSelectDest_clicked();
 
 private:
     Ui::EBDialogProfile *ui;
