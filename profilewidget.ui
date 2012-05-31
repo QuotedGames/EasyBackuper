@@ -47,7 +47,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1,0,0">
      <property name="spacing">
-      <number>-1</number>
+      <number>6</number>
      </property>
      <property name="sizeConstraint">
       <enum>QLayout::SetDefaultConstraint</enum>
@@ -87,6 +87,7 @@
         <widget class="QLabel" name="labelName">
          <property name="font">
           <font>
+           <pointsize>11</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
@@ -100,7 +101,7 @@
         <widget class="QLabel" name="labelDescription">
          <property name="font">
           <font>
-           <pointsize>11</pointsize>
+           <pointsize>9</pointsize>
            <italic>false</italic>
           </font>
          </property>
@@ -131,7 +132,7 @@
       <widget class="QLabel" name="labelTime">
        <property name="font">
         <font>
-         <pointsize>12</pointsize>
+         <pointsize>9</pointsize>
         </font>
        </property>
        <property name="text">
