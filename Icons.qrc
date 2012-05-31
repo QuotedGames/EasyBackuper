@@ -6,5 +6,6 @@
         <file>Resources/play.png</file>
         <file>Resources/trash.png</file>
         <file>Resources/minus.png</file>
+        <file>Resources/settings.png</file>
     </qresource>
 </RCC>

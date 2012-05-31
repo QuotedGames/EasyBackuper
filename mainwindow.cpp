@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     this->mDialogProfile = new EBDialogProfile(this);
+    this->mDialogSettings = new EBDialogSettings(this);
 
     connect(this->mDialogProfile,   SIGNAL(profileModified(EBProfile*)),
             this,                   SLOT(onProfileModified(EBProfile*)));
@@ -24,6 +25,8 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete this->mDialogProfile;
+    delete this->mDialogSettings;
 }
 
 void MainWindow::changeEvent(QEvent *e)
@@ -109,7 +112,6 @@ void MainWindow::loadProfiles()
     }
 */
 
-
 }
 
 void MainWindow::onProfileModified(EBProfile *profile)
@@ -124,7 +126,12 @@ void MainWindow::onProfileModified(EBProfile *profile)
 // Add new profile
 void MainWindow::on_actionNew_profile_triggered()
 {
-    EBProfile *p = new EBProfile();
-    this->mDialogProfile->setProfile(p);
+    this->mDialogProfile->setProfile(0);
+    this->mDialogProfile->setIsNewProfile(true);
     this->mDialogProfile->show();
+}
+
+void MainWindow::on_actionSettings_triggered()
+{
+    this->mDialogSettings->show();
 }

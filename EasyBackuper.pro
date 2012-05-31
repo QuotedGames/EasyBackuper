@@ -14,16 +14,19 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     profilewidget.cpp \
     ebprofile.cpp \
-    ebdialogprofile.cpp
+    ebdialogprofile.cpp \
+    ebdialogsettings.cpp
 
 HEADERS  += mainwindow.h \
     profilewidget.h \
     ebprofile.h \
-    ebdialogprofile.h
+    ebdialogprofile.h \
+    ebdialogsettings.h
 
 FORMS    += mainwindow.ui \
     profilewidget.ui \
-    ebdialogprofile.ui
+    ebdialogprofile.ui \
+    ebdialogsettings.ui
 
 RESOURCES += \
     Icons.qrc

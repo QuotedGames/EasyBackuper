@@ -93,6 +93,7 @@
    </attribute>
    <addaction name="actionNew_profile"/>
    <addaction name="actionRemove_selected"/>
+   <addaction name="actionSettings"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionNew_profile">
@@ -114,6 +115,15 @@
    </property>
    <property name="text">
     <string>Remove selected</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="icon">
+    <iconset resource="Icons.qrc">
+     <normaloff>:/main/Resources/settings.png</normaloff>:/main/Resources/settings.png</iconset>
+   </property>
+   <property name="text">
+    <string>Settings</string>
    </property>
   </action>
  </widget>

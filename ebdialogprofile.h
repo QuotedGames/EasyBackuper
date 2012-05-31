@@ -23,6 +23,9 @@ public:
     ~EBDialogProfile();
 
     void setProfile(EBProfile *profile);
+    void setIsNewProfile(bool isNew);
+
+    bool isNewProfile();
     
 protected:
     void changeEvent(QEvent *e);
@@ -39,9 +42,11 @@ private slots:
 private:
     Ui::EBDialogProfile *ui;
     EBProfile           *mProfile;
-
+    bool                mIsNewProfile;
 
     void prepareLayout();
+    void updateLayout();
+    void buildList();
 };
 
 #endif // EBDIALOGPROFILE_H

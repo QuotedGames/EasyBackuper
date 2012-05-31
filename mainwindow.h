@@ -6,6 +6,7 @@
 #include <QList>
 
 #include "profilewidget.h"
+#include "ebdialogsettings.h"
 #include "ebdialogprofile.h"
 #include "ebprofile.h"
 
@@ -30,12 +31,15 @@ private slots:
 
     void onProfileModified(EBProfile *);
 
+    void on_actionSettings_triggered();
+
 private:
-    Ui::MainWindow *ui;
+    Ui::MainWindow      *ui;
 
-    EBDialogProfile *mDialogProfile;
+    EBDialogProfile     *mDialogProfile;
+    EBDialogSettings    *mDialogSettings;
 
-    QList<EBProfile *> *mProfiles;
+    QList<EBProfile *>  *mProfiles;
 
 
     void loadProfiles();

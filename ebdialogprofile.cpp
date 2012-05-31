@@ -9,6 +9,8 @@ EBDialogProfile::EBDialogProfile(QWidget *parent) :
 {
     ui->setupUi(this);
     this->mProfile = 0;
+    this->mIsNewProfile = true;
+
 }
 
 EBDialogProfile::~EBDialogProfile()
@@ -30,7 +32,11 @@ void EBDialogProfile::changeEvent(QEvent *e)
 
 void EBDialogProfile::setProfile(EBProfile *profile)
 {
-    this->mProfile = profile;
+    if(profile == 0) {
+        this->mProfile = new EBProfile();
+    } else {
+        this->mProfile = profile;
+    }
     this->prepareLayout();
 }
 
@@ -42,13 +48,29 @@ void EBDialogProfile::prepareLayout()
     ui->pDescription->setText(this->mProfile->profileDescription());
     ui->pDestination->setText(this->mProfile->profileDestinationDir());
 
+    this->buildList();
+
+}
+
+void EBDialogProfile::updateLayout()
+{
+    // Update only list of files and "remove"-buttons
+
+    this->buildList();
+}
+
+void EBDialogProfile::buildList()
+{
+    ui->pFiles->clear();
     for(int i = 0; i < this->mProfile->profileFiles().size(); ++i) {
         ui->pFiles->addItem(this->mProfile->profileFiles().at(i));
+        ui->pFiles->item(i)->setSizeHint(QSize(ui->pFiles->size().width()-10, 20));
     }
 
     if(this->mProfile->profileFiles().size() == 0) {
         ui->bRemoveAll->setEnabled(false);
-        ui->bRemoveFile->setEnabled(false);
+    } else {
+        ui->bRemoveAll->setEnabled(true);
     }
 
 }
@@ -68,9 +90,25 @@ void EBDialogProfile::on_bAddFile_clicked()
     fNames = QFileDialog::getOpenFileNames(this, tr("Select files"), this->mProfile->profileLastSourceDir());
 
     if(fNames.size() > 0) {
+        for(int i = 0; i < fNames.size(); ++i) {
+            this->mProfile->addFile(fNames.at(i));
+            this->mProfile->setProfileLastSourceDir(QDir(fNames.at(i)).absolutePath());
+        }
 
+        // Update window-layout
+        this->updateLayout();
 
     }
 
 
+}
+
+void EBDialogProfile::setIsNewProfile(bool isNew)
+{
+    this->mIsNewProfile = isNew;
+}
+
+bool EBDialogProfile::isNewProfile()
+{
+    return this->mIsNewProfile;
 }
