@@ -13,6 +13,7 @@ public:
     const QString & profileName();
     const QString & profileDescription();
     const QString & profileDestinationDir();
+    const QString & profileLastSourceDir();
 
     bool            isActive();
 
@@ -20,9 +21,10 @@ public:
 
 
 
-    void setProfileName(const QString &name);
-    void setProfileDescription(const QString &description);
-    void setDestinationDir(const QString &dir);
+    void setProfileName             (const QString &name);
+    void setProfileDescription      (const QString &description);
+    void setDestinationDir          (const QString &dir);
+    void setProfileLastSourceDir    (const QString &dir);
 
     void setActive(bool active);
 
@@ -42,6 +44,7 @@ private:
     QString mProfileName;
     QString mProfileDescription;
     QString mDistanationDirectory;
+    QString mLastSourceDirectory;
 
 
     QList<QString>  mFilesToCopy;

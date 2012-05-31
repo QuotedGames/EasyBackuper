@@ -51,10 +51,11 @@ void MainWindow::loadProfiles()
         settings.setArrayIndex(i);
 
         EBProfile *p = new EBProfile();
-        p->setProfileName(settings.value("name", tr("Unknown")).toString());
-        p->setProfileDescription(settings.value("description", tr("Unknown")).toString());
-        p->setDestinationDir(settings.value("destination", "").toString());
-        p->setActive(settings.value("isActive", false).toBool());
+        p->setProfileName           (settings.value("name",             tr("Unknown")).toString());
+        p->setProfileDescription    (settings.value("description",      tr("Unknown")).toString());
+        p->setDestinationDir        (settings.value("destination",      "").toString());
+        p->setActive                (settings.value("isActive",         false).toBool());
+        p->setProfileLastSourceDir  (settings.value("lastSourceDir",    "").toString());
 
         // read profile's files to copy
         int filesCount = settings.beginReadArray("settings/profiles/files");
@@ -113,7 +114,10 @@ void MainWindow::loadProfiles()
 
 void MainWindow::onProfileModified(EBProfile *profile)
 {
+    Q_ASSERT(profile);
 
+    if(profile == 0)
+        return;
 }
 
 

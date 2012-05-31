@@ -3,11 +3,12 @@
 EBProfile::EBProfile(QObject *parent) :
     QObject(parent)
 {
-    this->mIsActive = false;
-    this->mProfileName = "";
-    this->mProfileDescription = "";
-    this->mFilesToCopy = QList<QString>();
+    this->mIsActive             = false;
+    this->mProfileName          = "";
+    this->mProfileDescription   = "";
+    this->mFilesToCopy          = QList<QString>();
     this->mDistanationDirectory = "";
+    this->mLastSourceDirectory  = "";
 
 }
 
@@ -24,6 +25,11 @@ const QString & EBProfile::profileDescription()
 const QString & EBProfile::profileDestinationDir()
 {
     return this->mDistanationDirectory;
+}
+
+const QString & EBProfile::profileLastSourceDir()
+{
+    return this->mLastSourceDirectory;
 }
 
 bool EBProfile::isActive()
@@ -48,6 +54,11 @@ void EBProfile::setProfileDescription(const QString &description) {
 void EBProfile::setDestinationDir(const QString &dir)
 {
     this->mDistanationDirectory = dir;
+}
+
+void EBProfile::setProfileLastSourceDir(const QString &dir)
+{
+    this->mLastSourceDirectory = dir;
 }
 
 void EBProfile::setActive(bool active) {

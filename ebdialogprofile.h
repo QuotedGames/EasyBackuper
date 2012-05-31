@@ -3,8 +3,12 @@
 
 #include <QDialog>
 #include <QFile>
+#include <QFileDialog>
+#include <QDir>
+
 
 #include <ebprofile.h>
+
 
 namespace Ui {
 class EBDialogProfile;
@@ -25,7 +29,13 @@ protected:
 
 signals:
     void profileModified(EBProfile *);
+
     
+private slots:
+    void on_bCancel_clicked();
+
+    void on_bAddFile_clicked();
+
 private:
     Ui::EBDialogProfile *ui;
     EBProfile           *mProfile;

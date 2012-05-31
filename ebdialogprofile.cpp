@@ -1,6 +1,8 @@
 #include "ebdialogprofile.h"
 #include "ui_ebdialogprofile.h"
 
+#include <QDebug>
+
 EBDialogProfile::EBDialogProfile(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::EBDialogProfile)
@@ -49,4 +51,24 @@ void EBDialogProfile::prepareLayout()
         ui->bRemoveFile->setEnabled(false);
     }
 
+}
+
+void EBDialogProfile::on_bCancel_clicked()
+{
+    this->mProfile = 0;
+    emit this->profileModified(this->mProfile);
+
+    this->close();
+}
+
+void EBDialogProfile::on_bAddFile_clicked()
+{
+    QStringList fNames = QStringList();
+
+    fNames = QFileDialog::getOpenFileNames(this, tr("Select files"), this->mProfile->profileLastSourceDir());
+
+    if(fNames.size() > 0) {
+
+
+    }
 }
