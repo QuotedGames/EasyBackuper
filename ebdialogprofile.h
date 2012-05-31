@@ -39,10 +39,14 @@ private slots:
 
     void on_bAddFile_clicked();
 
+    void on_bRemoveFile_clicked();
+
+    void on_bRemoveAll_clicked();
+
 private:
     Ui::EBDialogProfile *ui;
     EBProfile           *mProfile;
-    bool                mIsNewProfile;
+    bool                 mIsNewProfile;
 
     void prepareLayout();
     void updateLayout();

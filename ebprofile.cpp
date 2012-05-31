@@ -74,3 +74,14 @@ void EBProfile::addFile(const QString &file) {
     this->mFilesToCopy.append(file);
 }
 
+
+void EBProfile::removeFileAtIndex(const int index)
+{
+    if(!this->mFilesToCopy.at(index).isNull())
+        this->mFilesToCopy.removeAt(index);
+}
+
+void EBProfile::removeAllFiles()
+{
+    this->mFilesToCopy.clear();
+}

@@ -31,7 +31,8 @@ public:
     void setFiles(QList<QString> list);
     void addFile(const QString &file);
 
-
+    void removeFileAtIndex(const int index);
+    void removeAllFiles();
 
 
 signals:

@@ -62,6 +62,7 @@ void EBDialogProfile::updateLayout()
 void EBDialogProfile::buildList()
 {
     ui->pFiles->clear();
+
     for(int i = 0; i < this->mProfile->profileFiles().size(); ++i) {
         ui->pFiles->addItem(this->mProfile->profileFiles().at(i));
         ui->pFiles->item(i)->setSizeHint(QSize(ui->pFiles->size().width()-10, 20));
@@ -69,8 +70,10 @@ void EBDialogProfile::buildList()
 
     if(this->mProfile->profileFiles().size() == 0) {
         ui->bRemoveAll->setEnabled(false);
+        ui->bRemoveFile->setEnabled(false);
     } else {
         ui->bRemoveAll->setEnabled(true);
+        ui->bRemoveFile->setEnabled(true);
     }
 
     if(ui->pFiles->count() > 0) {
@@ -122,9 +125,30 @@ bool EBDialogProfile::isNewProfile()
 
 bool EBDialogProfile::fileExist(const QString &file)
 {
-    for(int i = 0; i < this->mProfile->profileFiles().size(); ++i) {
-        if(this->mProfile->profileFiles().at(i) == file)
-            return true;
+    return this->mProfile->profileFiles().contains(file);
+}
+
+void EBDialogProfile::on_bRemoveFile_clicked()
+{
+    if(ui->pFiles->selectedItems().size() == 0) {
+        // no files selected, nothing to delete
+        return;
     }
-    return false;
+
+    QList<QListWidgetItem *> items = ui->pFiles->selectedItems();
+
+    for(int i = 0; i < items.size(); ++i) {
+        QListWidgetItem *item = items.at(i);
+        int index = ui->pFiles->row(item);
+        this->mProfile->removeFileAtIndex(index);
+    }
+
+    this->updateLayout();
+
+}
+
+void EBDialogProfile::on_bRemoveAll_clicked()
+{
+    this->mProfile->removeAllFiles();
+    this->updateLayout();
 }
