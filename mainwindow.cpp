@@ -60,6 +60,9 @@ void MainWindow::loadProfiles()
     for(int i = 0; i < profilesCount; ++i) {
         settings.setArrayIndex(i);
 
+        if(settings.value("uniqueId", 0).toInt() == 0)
+            continue;
+
         EBProfile *p = new EBProfile();
         p->setProfileName           (settings.value("name",             tr("Unknown")).toString());
         p->setProfileDescription    (settings.value("description",      tr("Unknown")).toString());
@@ -227,7 +230,10 @@ void MainWindow::on_actionRemove_selected_triggered()
 
     QMessageBox msgBox;
     msgBox.setText(tr("Do you really want to delete this profile?"));
-    msgBox.setInformativeText(tr("Profile: %1 (files: %2, interval: %3)").arg(this->mProfiles->at(row)->profileName(), "10", "5 Hours"));
+    msgBox.setInformativeText(tr("Profile: <b>%1</b><br>Files: %2, Interval: %3 %4").arg(this->mProfiles->at(row)->profileName(),
+                                                                                QString::number(this->mProfiles->at(row)->profileFiles().size()),
+                                                                                QString::number(this->mProfiles->at(row)->intervalValue()),
+                                                                                 this->mProfiles->at(row)->intervalDescription()));
     msgBox.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
     msgBox.setDefaultButton(QMessageBox::Cancel);
     msgBox.setIcon(QMessageBox::Question);
@@ -239,7 +245,10 @@ void MainWindow::on_actionRemove_selected_triggered()
         ui->profileList->takeItem(row);
         ui->profileList->clearSelection();
         ui->profileList->doItemsLayout();
-        this->mProfiles->removeAt(row);
+
+        this->removeProfile(this->mProfiles->at(row));
+
+        this->mProfiles->takeAt(row);
 
         ui->mainToolBar->actions().at(1)->setEnabled(false);
     }
@@ -259,7 +268,6 @@ void MainWindow::onProfileEntered(QListWidgetItem *item)
 
 void MainWindow::saveNewProfile(EBProfile *profile)
 {
-    qDebug() << "Saving profile: " << profile->profileName();
 
     QSettings settings("com.QuotedGames", "EasyBackuperSettings");
 
@@ -292,12 +300,20 @@ void MainWindow::saveNewProfile(EBProfile *profile)
     settings.endArray();
 
 
-    settings.dumpObjectTree();
+}
 
 
+void MainWindow::removeProfile(EBProfile *profile)
+{
+    int index = profile->internId();
 
+    QSettings settings("com.QuotedGames", "EasyBackuperSettings");
+    qDebug() << "removing with index: " << index;
 
+    settings.beginReadArray("settings/profiles");
 
+    settings.setArrayIndex(index);
+    settings.remove("");
 
-
+    settings.endArray();
 }

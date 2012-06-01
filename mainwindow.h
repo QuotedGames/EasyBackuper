@@ -54,6 +54,7 @@ private:
 
     void insertProfile(EBProfile *profile);
     void updateProfile(EBProfile *profile);
+    void removeProfile(EBProfile *profile);
 
     void updateList();
 
