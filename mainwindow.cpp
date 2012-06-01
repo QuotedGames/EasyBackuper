@@ -13,10 +13,13 @@ MainWindow::MainWindow(QWidget *parent) :
     this->mDialogSettings = new EBDialogSettings(this);
 
     connect(this->mDialogProfile,   SIGNAL(profileModified(EBProfile*)),
-            this,                   SLOT(onProfileModified(EBProfile*)));
+            this,                   SLOT  (onProfileModified(EBProfile*)));
 
     connect(ui->profileList,        SIGNAL(itemPressed(QListWidgetItem*)),
-            this,                   SLOT(onProfileSelected(QListWidgetItem*)));
+            this,                   SLOT  (onProfileSelected(QListWidgetItem*)));
+
+    connect(ui->profileList,        SIGNAL(itemDoubleClicked(QListWidgetItem*)),
+            this,                   SLOT(onProfileEntered(QListWidgetItem*)));
 
     this->mProfiles = new QList<EBProfile *>();
 
@@ -232,4 +235,16 @@ void MainWindow::on_actionRemove_selected_triggered()
 
         ui->mainToolBar->actions().at(1)->setEnabled(false);
     }
+}
+
+void MainWindow::onProfileEntered(QListWidgetItem *item)
+{
+    int row = ui->profileList->row(item);
+
+    if(this->mProfiles->at(row) == 0)
+        return;
+
+    this->mDialogProfile->setProfile(this->mProfiles->at(row));
+    this->mDialogProfile->setIsNewProfile(false);
+    this->mDialogProfile->show();
 }

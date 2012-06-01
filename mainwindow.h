@@ -37,6 +37,7 @@ private slots:
 
 
     void onProfileSelected(QListWidgetItem *);
+    void onProfileEntered(QListWidgetItem *);
 
     void on_actionRemove_selected_triggered();
 

@@ -47,10 +47,10 @@ void EBDialogProfile::prepareLayout()
 {
     Q_ASSERT(this->mProfile);
 
-    ui->pTitle->setText(this->mProfile->profileName());
-    ui->pDestination->setText(this->mProfile->profileDestinationDir());
-    ui->pIntervalValue->setValue(this->mProfile->intervalValue());
-    ui->pIntervalMode->setCurrentIndex(this->mProfile->intervalType());
+    ui->pTitle->setText                 (this->mProfile->profileName());
+    ui->pDestination->setText           (this->mProfile->profileDestinationDir());
+    ui->pIntervalValue->setValue        (this->mProfile->intervalValue());
+    ui->pIntervalMode->setCurrentIndex  (this->mProfile->intervalType());
 
     this->buildList();
 
@@ -184,12 +184,15 @@ void EBDialogProfile::on_bOk_clicked()
         return;
     }
 
-    this->mProfile->setProfileName(ui->pTitle->text());
-    this->mProfile->setDestinationDir(ui->pDestination->text());
+    this->mProfile->setProfileName      (ui->pTitle->text());
+    this->mProfile->setDestinationDir   (ui->pDestination->text());
+    this->mProfile->setIntervalValue    (ui->pIntervalValue->value());
+    this->mProfile->setIntervalType     (ui->pIntervalMode->currentIndex());
+
     this->mProfile->setProfileDescription(tr("Files: %1, Interval: %2 %3. Destination: %4").arg(QString::number(this->mProfile->profileFiles().size()),
-                                                                                                "value",
-                                                                                                "type",
-                                                                                                "dest"));
+                                                                                                QString::number(this->mProfile->intervalValue()),
+                                                                                                this->mProfile->intervalDescription(),
+                                                                                                this->mProfile->profileDestinationDir()));
 
     emit this->profileModified(this->mProfile);
     this->close();
