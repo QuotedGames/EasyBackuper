@@ -50,10 +50,11 @@ void MainWindow::changeEvent(QEvent *e)
 
 void MainWindow::loadProfiles()
 {
-    // Dummy
-    // -----
+
+
     QSettings settings("com.QuotedGames", "EasyBackuperSettings");
 
+    //settings.clear();
 
     int profilesCount = settings.beginReadArray("settings/profiles");
     for(int i = 0; i < profilesCount; ++i) {
@@ -65,9 +66,14 @@ void MainWindow::loadProfiles()
         p->setDestinationDir        (settings.value("destination",      "").toString());
         p->setActive                (settings.value("isActive",         false).toBool());
         p->setProfileLastSourceDir  (settings.value("lastSourceDir",    "").toString());
+        p->setUniqueId              (settings.value("uniqueId",         0).toInt());
+        p->setIntervalValue         (settings.value("intervalValue",    1).toInt());
+        p->setIntervalType          (settings.value("intervalType",     1).toInt());
+
+        qDebug() << "p:" << p->profileName();
 
         // read profile's files to copy
-        int filesCount = settings.beginReadArray("settings/profiles/files");
+        int filesCount = settings.beginReadArray("files");
         for(int j = 0; j < filesCount; ++j) {
             settings.setArrayIndex(j);
             p->addFile(settings.value("file", "").toString());
@@ -86,7 +92,7 @@ void MainWindow::loadProfiles()
         EBProfile       *p = this->mProfiles->at(i);
         ProfileWidget   *pw = new ProfileWidget(this);
 
-        // pw -> setProfile
+        pw->setProfile(p);
 
         QListWidgetItem *lw = new QListWidgetItem();
 
@@ -143,6 +149,7 @@ void MainWindow::onProfileModified(EBProfile *profile)
 void MainWindow::on_actionNew_profile_triggered()
 {
     this->mDialogProfile->setProfile(0);
+
     this->mDialogProfile->setIsNewProfile(true);
     this->mDialogProfile->show();
 }
@@ -157,6 +164,8 @@ void MainWindow::insertProfile(EBProfile *profile)
 {
     qDebug() << profile;
     this->mProfiles->push_back(profile);
+
+    this->saveNewProfile(profile);
 
     // insert new profile in the list
     ProfileWidget *w = new ProfileWidget(this);
@@ -247,4 +256,46 @@ void MainWindow::onProfileEntered(QListWidgetItem *item)
     this->mDialogProfile->setProfile(this->mProfiles->at(row));
     this->mDialogProfile->setIsNewProfile(false);
     this->mDialogProfile->show();
+}
+
+void MainWindow::saveNewProfile(EBProfile *profile)
+{
+    qDebug() << "Saving profile: " << profile->profileName();
+
+    QSettings settings("com.QuotedGames", "EasyBackuperSettings");
+
+    int profilesCount = settings.beginReadArray("settings/profiles");
+    settings.endArray();
+
+    settings.beginWriteArray("settings/profiles");
+    settings.setArrayIndex(profilesCount);
+
+    settings.setValue("name", profile->profileName());
+    settings.setValue("description", profile->profileDescription());
+    settings.setValue("destination", profile->profileDestinationDir());
+    settings.setValue("isActive",   profile->isActive());
+    settings.setValue("lastSourceDir", profile->profileLastSourceDir());
+    settings.setValue("uniqueId", profile->uniqueId());
+    settings.setValue("intervalValue", profile->intervalValue());
+    settings.setValue("intervalType", profile->intervalType());
+    settings.endArray();
+
+
+    // Write files:
+    settings.beginWriteArray("settings/profiles/" + QString::number(profilesCount + 1) + "/files");
+    for(int i = 0; i < profile->profileFiles().size(); ++i) {
+        settings.setArrayIndex(i);
+        settings.setValue("file", profile->profileFiles().at(i));
+    }
+    settings.endArray();
+
+
+    settings.dumpObjectTree();
+
+
+
+
+
+
+
 }

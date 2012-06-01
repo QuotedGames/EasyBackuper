@@ -56,6 +56,9 @@ private:
     void updateProfile(EBProfile *profile);
 
     void updateList();
+
+    void saveNewProfile(EBProfile *profile);
+    void saveExistingProfile(EBProfile *profile);
 };
 
 #endif // MAINWINDOW_H
