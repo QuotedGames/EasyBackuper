@@ -109,23 +109,6 @@ void MainWindow::loadProfiles()
 
     ui->statusBar->showMessage(tr("Profiles loaded: %1").arg(this->mProfiles->size()));
 
-/*
-    for(int i = 0; i < 5; ++i) {
-        ProfileWidget *w1 = new ProfileWidget(this);
-        QListWidgetItem *i1 = new QListWidgetItem();
-
-        qDebug() << "size before resizing:" << w1->size();
-
-        i1->setSizeHint(QSize(ui->profileList->sizeHintForColumn(i), 44));
-        w1->resize(QSize(ui->profileList->sizeHint().width(), 44));
-
-        qDebug() << "size after resizing:" << w1->size();
-
-        ui->profileList->addItem(i1);
-        ui->profileList->setItemWidget(i1, w1);
-    }
-*/
-
 }
 
 void MainWindow::onProfileModified(EBProfile *profile)
@@ -290,7 +273,6 @@ void MainWindow::saveNewProfile(EBProfile *profile)
 
     settings.endArray();
 
-
     // Write files:
     settings.beginWriteArray("settings/profiles/" + QString::number(profilesCount + 1) + "/files");
     for(int i = 0; i < profile->profileFiles().size(); ++i) {
@@ -298,8 +280,6 @@ void MainWindow::saveNewProfile(EBProfile *profile)
         settings.setValue("file", profile->profileFiles().at(i));
     }
     settings.endArray();
-
-
 }
 
 
@@ -308,7 +288,6 @@ void MainWindow::removeProfile(EBProfile *profile)
     int index = profile->internId();
 
     QSettings settings("com.QuotedGames", "EasyBackuperSettings");
-    qDebug() << "removing with index: " << index;
 
     settings.beginReadArray("settings/profiles");
 

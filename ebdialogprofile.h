@@ -6,6 +6,7 @@
 #include <QFileDialog>
 #include <QDir>
 #include <QMessageBox>
+#include <QFileInfoList>
 
 
 #include <ebprofile.h>
@@ -48,6 +49,8 @@ private slots:
 
     void on_bSelectDest_clicked();
 
+    void on_bAddFolder_clicked();
+
 private:
     Ui::EBDialogProfile *ui;
     EBProfile           *mProfile;
@@ -58,6 +61,8 @@ private:
     void buildList();
 
     bool fileExist(const QString & file);
+
+    void parseDirectory(const QString & dir, bool recursive = false);
 };
 
 #endif // EBDIALOGPROFILE_H

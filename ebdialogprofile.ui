@@ -81,7 +81,17 @@
           <item>
            <widget class="QPushButton" name="bAddFile">
             <property name="text">
-             <string>Add new</string>
+             <string>New file</string>
+            </property>
+            <property name="autoDefault">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="bAddFolder">
+            <property name="text">
+             <string>New folder</string>
             </property>
             <property name="autoDefault">
              <bool>false</bool>

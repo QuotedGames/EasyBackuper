@@ -208,3 +208,81 @@ void EBDialogProfile::on_bSelectDest_clicked()
     this->mProfile->setDestinationDir(QDir(dir).absolutePath());
     ui->pDestination->setText(this->mProfile->profileDestinationDir());
 }
+
+void EBDialogProfile::on_bAddFolder_clicked()
+{
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Select source folder"), this->mProfile->profileDestinationDir());
+
+    if(dir.isEmpty())
+        return;
+
+    // Check if directory has some sub-directory
+
+    QDir folder(dir);
+
+    bool hasSubdirs = false;
+
+    QFileInfoList subItems = folder.entryInfoList();
+    for(int i = 0; i < subItems.size(); ++i) {
+        QFileInfo fileInfo = subItems.at(i);
+
+        if(fileInfo.fileName() == "." || fileInfo.fileName() == "..")
+            continue;
+
+        if(fileInfo.isDir()) {
+            qDebug() << "Subdir found: " << fileInfo.path();
+            hasSubdirs = true;
+
+            // Don't need to scan more
+            break;
+        }
+    }
+
+    if(hasSubdirs) {
+        // Ask user if he wants recursive add subdirs with files
+        QMessageBox msgBox;
+        msgBox.setIcon(QMessageBox::Question);
+        msgBox.setText(tr("The selected folder contains subfolders."));
+        msgBox.setInformativeText(tr("Do you want include all subfolders?"));
+        msgBox.setStandardButtons(QMessageBox::No | QMessageBox::Yes);
+
+        if(msgBox.exec() == QMessageBox::Yes) {
+
+            this->parseDirectory(dir, true);
+        } else {
+            this->parseDirectory(dir, false);
+        }
+
+
+    } else {
+        this->parseDirectory(dir);
+    }
+    this->mProfile->setProfileLastSourceDir(QDir(dir).absolutePath());
+    this->updateLayout();
+
+}
+
+void EBDialogProfile::parseDirectory(const QString &dir, bool recursive)
+{
+    qDebug() << "parsing directory" << dir << ", recursive:" << recursive;
+    QDir folder(dir);
+    QFileInfoList items = folder.entryInfoList();
+
+
+    for(int i = 0; i < items.size(); ++i) {
+        QFileInfo item = items.at(i);
+
+        if(item.fileName() == "." || item.fileName() == "..")
+            continue;
+
+        if(item.isDir() && recursive) {
+            qDebug() << i << "   -- dir found:" << item.absoluteFilePath();
+            this->parseDirectory(item.absoluteFilePath(), true);
+        } else {
+            qDebug() << i << "   -- file added:" << item.absoluteFilePath();
+            if(!this->fileExist(item.absoluteFilePath()))
+                this->mProfile->addFile(item.absoluteFilePath());
+        }
+
+    }
+}

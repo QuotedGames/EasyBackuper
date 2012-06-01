@@ -64,7 +64,7 @@
      <x>0</x>
      <y>0</y>
      <width>558</width>
-     <height>18</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -72,6 +72,8 @@
      <string>File</string>
     </property>
     <addaction name="actionNew_profile"/>
+    <addaction name="separator"/>
+    <addaction name="actionRemove_selected"/>
     <addaction name="separator"/>
     <addaction name="actionSettings"/>
    </widget>
@@ -106,6 +108,9 @@
    <property name="text">
     <string>New profile</string>
    </property>
+   <property name="toolTip">
+    <string>Create a new profile</string>
+   </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
    </property>
@@ -118,6 +123,12 @@
    <property name="text">
     <string>Remove selected</string>
    </property>
+   <property name="toolTip">
+    <string>Remove selected profile</string>
+   </property>
+   <property name="shortcut">
+    <string>Backspace</string>
+   </property>
   </action>
   <action name="actionSettings">
    <property name="icon">
@@ -126,6 +137,12 @@
    </property>
    <property name="text">
     <string>Settings</string>
+   </property>
+   <property name="toolTip">
+    <string>Open &quot;Settings&quot; dialog</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+,</string>
    </property>
   </action>
  </widget>
