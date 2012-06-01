@@ -20,6 +20,7 @@ EBProfile::EBProfile(QObject *parent) :
     this->mUniqueId             = 0;
     this->mIntervalValue        = 1;
     this->mIntervalType         = 1; // default is hours
+    this->mInternalId           = -1;
 
 }
 
@@ -74,6 +75,10 @@ QList<QString> EBProfile::profileFiles()
     return this->mFilesToCopy;
 }
 
+int EBProfile::internId()
+{
+    return this->mInternalId;
+}
 
 void EBProfile::setProfileName(const QString &name) {
     this->mProfileName = name;
@@ -131,4 +136,9 @@ void EBProfile::setIntervalType(int type)
 void EBProfile::setIntervalValue(int value)
 {
     this->mIntervalValue = value;
+}
+
+void EBProfile::setInternId(int id)
+{
+    this->mInternalId = id;
 }

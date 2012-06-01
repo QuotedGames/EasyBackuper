@@ -69,8 +69,7 @@ void MainWindow::loadProfiles()
         p->setUniqueId              (settings.value("uniqueId",         0).toInt());
         p->setIntervalValue         (settings.value("intervalValue",    1).toInt());
         p->setIntervalType          (settings.value("intervalType",     1).toInt());
-
-        qDebug() << "p:" << p->profileName();
+        p->setInternId              (i);
 
         // read profile's files to copy
         int filesCount = settings.beginReadArray("files");
@@ -270,6 +269,8 @@ void MainWindow::saveNewProfile(EBProfile *profile)
     settings.beginWriteArray("settings/profiles");
     settings.setArrayIndex(profilesCount);
 
+    profile->setInternId(profilesCount);
+
     settings.setValue("name", profile->profileName());
     settings.setValue("description", profile->profileDescription());
     settings.setValue("destination", profile->profileDestinationDir());
@@ -278,6 +279,7 @@ void MainWindow::saveNewProfile(EBProfile *profile)
     settings.setValue("uniqueId", profile->uniqueId());
     settings.setValue("intervalValue", profile->intervalValue());
     settings.setValue("intervalType", profile->intervalType());
+
     settings.endArray();
 
 

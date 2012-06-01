@@ -27,6 +27,7 @@ public:
     int             intervalType();
     const QString & intervalDescription();
     QList<QString>  profileFiles();
+    int             internId();
 
     // Setters
     // -------
@@ -39,6 +40,7 @@ public:
     void setIntervalType            (int type);
 
     void setActive                  (bool active);
+    void setInternId                (int id);
 
     void setFiles                   (QList<QString> list);
     void addFile                    (const QString &file);
@@ -82,6 +84,9 @@ private:
 
     // interval-type (0: min, 1: hours, 2: days)
     int mIntervalType;
+
+    // index of profile in settings-array, default is -1
+    int mInternalId;
 
 
 };
